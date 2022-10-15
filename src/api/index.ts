@@ -19,7 +19,7 @@ export function getRouters(){
                 "children": [{
                     "name": "Build",
                     "path": "Build",
-                    "component": "tool/build/index",
+                    "component": "sysTool/build/index",
                     "meta": {
                         "title": "表单构建",
                         "icon": "build",
@@ -30,7 +30,7 @@ export function getRouters(){
                 }, {
                     "name": "Gen",
                     "path": "Gen",
-                    "component": "tool/gen/index",
+                    "component": "sysTool/gen/index",
                     "meta": {
                         "title": "代码生成",
                         "icon": "code",
@@ -41,7 +41,7 @@ export function getRouters(){
                 }, {
                     "name": "Swagger",
                     "path": "Swagger",
-                    "component": "tool/swagger/index",
+                    "component": "sysTool/swagger/index",
                     "meta": {
                         "title": "系统接口",
                         "icon": "swagger",
@@ -186,18 +186,19 @@ export function getRouters(){
     })
 }
 
-export type RoutersType = [
+export type RoutersType = {
     name: string,
     path: string,
-    component: string,
+    component: string | Function | undefined,
     alwaysShow: boolean,
     meta: iconType,
-    children?: RoutersType
-]
+    children?: Array<RoutersType> | null
+}
 
 export type iconType = {
     title: string,
     icon: string,
     noCache: boolean,
-    link: null
+    link: null | string,
+    Auth:boolean
 }
