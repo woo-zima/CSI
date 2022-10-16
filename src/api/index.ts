@@ -1,4 +1,5 @@
 import { type } from "os";
+import * as user from './modules/user'
 
 //获取后台路由(动态路由)
 export function getRouters(){
@@ -53,7 +54,7 @@ export function getRouters(){
             },
             {
                 "name":"",
-                "path":"",
+                "path":"/",
                 "hidden":false,
                 "redirect":"Department",
                 "component":"Layout",
@@ -79,7 +80,7 @@ export function getRouters(){
             },
             {
                 "name":"",
-                "path":"",
+                "path":"/",
                 "hidden":false,
                 "redirect":"noRedirect",
                 "component":"Layout",
@@ -152,7 +153,7 @@ export function getRouters(){
             },
             {
                 "name":"",
-                "path":"",
+                "path":"/",
                 "hidden":false,
                 "redirect":"noRedirect",
                 "component":"Layout",
@@ -202,3 +203,8 @@ export type iconType = {
     link: null | string,
     Auth:boolean
 }
+
+const api = {
+    user
+}
+export default api

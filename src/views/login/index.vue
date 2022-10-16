@@ -65,7 +65,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       store.login().then((res: any) => {
         // console.log(res);
         if (res.code === 200) {
-          router.push('/home');
+          router.push('/');
+          localStorage.setItem('userInfo', 'a');
         } else {
           router.push('/login');
         }

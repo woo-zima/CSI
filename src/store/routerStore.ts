@@ -20,15 +20,15 @@ export const routerStore = defineStore('router',{
         }
     },
     getters:{
-        getUser(state){
+        getUser(state):any{
             return state.userInfo;
         }
     },
     actions:{
         GenerateRoutes() {
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 getRouters().then((res) => {
-                    
+                    this.userInfo = {name:'a'}
                     const sdata = JSON.parse(JSON.stringify(res))
                     const rdata = JSON.parse(JSON.stringify(res))
                     const defaultData = JSON.parse(JSON.stringify(res))
@@ -36,9 +36,7 @@ export const routerStore = defineStore('router',{
                     const rewriteRoutes = filterAsyncRouter(rdata)
                     // const defaultRoutes = filterAsyncRouter(defaultData)
                     // this.addRoutes = rewriteRoutes
-                    // this.routes = constantRoutes.concat(routes)
-                    console.log(rewriteRoutes);
-            
+                    // this.routes = constantRoutes.concat(routes)  
                     resolve(rewriteRoutes);
                 })
             })
@@ -48,24 +46,15 @@ export const routerStore = defineStore('router',{
 
 function filterAsyncRouter(asyncRouterMap:Array<RoutersType>){
     return asyncRouterMap.filter((route: RoutersType ) =>{
-        // if (route.children) {
-        //     route.children = filterChildren(route.children,null)
-        //     // console.log(route.children);
-            
-        // }
         if(route.component){
             if(route.component === 'Layout'){
                 route.component = Layout;
             }else{
-                // console.log(route.component);
-                route.component = loadView(route.component)
-                // console.log(route.component);                
+                route.component = loadView(route.component)             
             } 
         }
-        if (route.children != null && route.children ) {
+        if (route.children && route.children.length ) {
             route.children = filterAsyncRouter(route.children)
-        } else {
-            delete route['children']
         }
         return true
     })

@@ -6,9 +6,9 @@ const routes: Array<RouteRecordRaw>= [
     path: '/',
     name:"/",
     component: Layout,
-    redirect:'/login',
+    redirect: 'home',
     children: [{
-      path: '/home',
+      path: 'home',
       name: 'home',
       component: () => import('@/views/home/index.vue'),
       meta: { title: '首页', access: 0, Auth: true }
@@ -18,7 +18,11 @@ const routes: Array<RouteRecordRaw>= [
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/index.vue'),
-  }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/views/error/404/index.vue'),
+},
 ]
 
 const router = createRouter({

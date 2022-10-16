@@ -20,8 +20,9 @@ const router = useRouter();
 const layout = () => {
   // store.dispatch('LayOut');
   router.push({
-    path: '/',
+    path: '/login',
   });
+  localStorage.removeItem('userInfo');
 };
 </script>
 
