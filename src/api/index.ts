@@ -13,7 +13,6 @@ export function getRouters(){
                 "meta": {
                     "title": "系统工具",
                     "icon": "tool",
-                    "noCache": false,
                     "link": null,
                     "Auth":true
                 },
@@ -24,8 +23,7 @@ export function getRouters(){
                     "meta": {
                         "title": "表单构建",
                         "icon": "build",
-                        "noCache": false,
-                        "link": 'build',
+                        "link": 'Tool',
                         "Auth":true
                     }
                 }, {
@@ -36,7 +34,7 @@ export function getRouters(){
                         "title": "代码生成",
                         "icon": "code",
                         "noCache": false,
-                        "link": null,
+                        "link": 'Tool',
                         "Auth":true
                     }
                 }, {
@@ -47,20 +45,21 @@ export function getRouters(){
                         "title": "系统接口",
                         "icon": "swagger",
                         "noCache": false,
-                        "link": null,
+                        "link": 'Tool',
                         "Auth":true
                     }
                 }]
             },
             {
-                "name":"",
+                "name":"Department",
                 "path":"/",
                 "hidden":false,
                 "redirect":"Department",
                 "component":"Layout",
                 "meta":{
                     "title":"部门管理",
-                    "Auth":true
+                    "Auth":true,
+                    "isSingle":true
                 },
                 "children":[
                     {
@@ -71,25 +70,21 @@ export function getRouters(){
                         "meta":{
                             "title":"部门管理",
                             "icon":"tool",
-                            "nocache":false,
-                            "link":"department",
+                            "link":"Department",
                             "Auth":true
                         }
                     }
                 ]
             },
             {
-                "name":"",
+                "name":"Menulist",
                 "path":"/",
                 "hidden":false,
-                "redirect":"noRedirect",
                 "component":"Layout",
                 // "alwaysShow":"true",
                 "meta":{
                     "title":"菜单管理",
-                    "icon":"tool",
-                    "nocache":false,
-                    "link":'',
+                    "isSingle":true,
                     "Auth":true
                 },
                 "children":[
@@ -102,7 +97,7 @@ export function getRouters(){
                             "title":"菜单管理",
                             "icon":"tool",
                             "nocache":false,
-                            "link":"menulist",
+                            "link":"Menulist",
                             "Auth":true
                         }
                     }
@@ -112,14 +107,11 @@ export function getRouters(){
                 "name":"DayRecord",
                 "path":"/dayRecord",
                 "hidden":false,
-                "redirect":"noRedirect",
                 "component":"Layout",
                 "alwaysShow":"true",
                 "meta":{
                     "title":"日志管理",
                     "icon":"tool",
-                    "nocache":false,
-                    "link":'dayRecord',
                     "Auth":true
                 },
                 "children":[
@@ -132,7 +124,7 @@ export function getRouters(){
                             "title":"登录日志",
                             "icon":"tool",
                             "nocache":false,
-                            "link":"loginRecord",
+                            "link":"dayRecord",
                             "Auth":true
                         }
                     },
@@ -145,24 +137,21 @@ export function getRouters(){
                             "title":"操作日志",
                             "icon":"tool",
                             "nocache":false,
-                            "link":"handleRecord",
+                            "link":"dayRecord",
                             "Auth":true
                         }
                     },
                 ]
             },
             {
-                "name":"",
+                "name":"UserList",
                 "path":"/",
                 "hidden":false,
-                "redirect":"noRedirect",
                 "component":"Layout",
                 // "alwaysShow":"true",
                 "meta":{
                     "title":"用户管理",
-                    "icon":"tool",
-                    "nocache":false,
-                    "link":'',
+                    "isSingle":true,
                     "Auth":true
                 },
                 "children":[
@@ -191,8 +180,8 @@ export type RoutersType = {
     name: string,
     path: string,
     component: string | Function | undefined,
-    alwaysShow: boolean,
-    meta: iconType,
+    alwaysShow?: boolean,
+    meta?: iconType,
     children?: Array<RoutersType> | null
 }
 
@@ -201,7 +190,8 @@ export type iconType = {
     icon: string,
     noCache: boolean,
     link: null | string,
-    Auth:boolean
+    Auth:boolean,
+    isSingle?:Boolean
 }
 
 const api = {

@@ -9,55 +9,16 @@
     unique-opened
     :collapse="!store.sidebarType"
   >
-    <template v-for="(item, index) in menusList">
-      <el-sub-menu
-        :index="(index + 1).toString()"
-        :key="index"
-        v-if="item.children && item.children.length > 1"
-      >
-        <template #title>
-          <span>{{ $t(`menus.${item.name}`) }}</span>
-        </template>
-        <el-menu-item
-          :index="item.path + '/' + it.path"
-          v-for="(it, index) in item.children"
-          :key="index"
-          @click="savePath(item.path, it.path)"
-        >
-          <template #title>
-            <span>{{ $t(`menus.${it.path}`) }}</span>
-          </template>
-        </el-menu-item>
-      </el-sub-menu>
-      <el-menu-item
-        v-else
-        :index="item.children[0].path"
-        :class="{ bgc: myPath === '/' + item.children[0].path }"
-        key="index"
-        @click="savePath(item.children[0].path, '')"
-      >
-        <!-- <el-tooltip
-          :disabled="store.sidebarType"
-          class="box-item"
-          effect="dark"
-          placement="right"
-          :offset="offsetValue"
-        >
-          <template #content>
-            <span>{{ item.children[0].meta.title }}</span>
-          </template>
-        </el-tooltip> -->
-        <span>{{ $t(`menus.${item.children[0].path}`) }}</span>
-      </el-menu-item>
-    </template>
+    <Mymenu :menusList="menusList"></Mymenu>
   </el-menu>
 </template>
 
 <script setup lang="ts">
 import { getRouters, RoutersType, iconType } from '@/api';
-import { ref, watch, Ref } from 'vue';
+import { ref, watch, Ref, onMounted } from 'vue';
 import { layoutStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
+import Mymenu from '@/components/Mymenu.vue';
 const route = useRoute();
 
 const defaultRouter = ref(sessionStorage.getItem('path') || '/tool/build');
@@ -65,24 +26,29 @@ const menusList: Ref = ref([]);
 const store = layoutStore();
 const router = useRouter();
 const myPath = ref('');
+
+onMounted(() => {
+  initMenusList();
+
+  // menusList.value = getRouters();
+});
 const initMenusList = async () => {
   menusList.value = await getRouters();
   // console.log(menusList.value);
 };
 //监听路由的变化
 watch(route, () => {
-  myPath.value = route.matched && route.matched[1] && route.matched[1].path;
+  myPath.value = route?.path;
 });
-function savePath(x: string, y: string) {
-  if (x && y) {
-    sessionStorage.setItem('path', `${x}/${y}`);
-  } else {
-    sessionStorage.setItem('path', `${x}`);
-    router.currentRoute.value.path = '';
-    router.push(`/${x}`);
-  }
-}
-initMenusList();
+// function savePath(x: string, y: string) {
+//   if (x && y) {
+//     sessionStorage.setItem('path', `${x}/${y}`);
+//   } else {
+//     sessionStorage.setItem('path', `${x}`);
+//     router.currentRoute.value.path = '';
+//     router.push(`/${x}`);
+//   }
+// }
 </script>
 
 <style lang="scss">

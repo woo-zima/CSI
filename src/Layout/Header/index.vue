@@ -1,6 +1,5 @@
 <template>
   <div class="nav">
-    <hamburger />
     <bread-crumb />
     <div class="nav-right">
       <div @click="switchLang">change</div>
