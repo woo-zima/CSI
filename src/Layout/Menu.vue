@@ -16,7 +16,7 @@
         v-if="item.children && item.children.length > 1"
       >
         <template #title>
-          <span>{{ item.meta && item.meta.title }}</span>
+          <span>{{ $t(`menus.${item.name}`) }}</span>
         </template>
         <el-menu-item
           :index="item.path + '/' + it.path"

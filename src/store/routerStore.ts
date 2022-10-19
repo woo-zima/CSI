@@ -32,11 +32,7 @@ export const routerStore = defineStore('router',{
                     const sdata = JSON.parse(JSON.stringify(res))
                     const rdata = JSON.parse(JSON.stringify(res))
                     const defaultData = JSON.parse(JSON.stringify(res))
-                    // const sidebarRoutes = filterAsyncRouter(sdata)
                     const rewriteRoutes = filterAsyncRouter(rdata)
-                    // const defaultRoutes = filterAsyncRouter(defaultData)
-                    // this.addRoutes = rewriteRoutes
-                    // this.routes = constantRoutes.concat(routes)  
                     resolve(rewriteRoutes);
                 })
             })

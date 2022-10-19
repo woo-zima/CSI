@@ -1,7 +1,17 @@
 export default {
     menus: {
       '/': 'home',
-      home: 'home',
+      home: 'Home',
+      Tool:'System Tool',
+      Build: 'Form Construction',
+      Gen: 'Code Generation',
+      Swagger: 'System Interface',
+      Department: 'Department Management',
+      Menulist: 'Menu Management',
+      LoginRecord:'Login Log',
+      HandleRecord:'Operation Log',
+      DayRecord:'Log Management',
+      UserList:'User Management',
       users: 'users list',
       roles: 'roles list',
       rights: 'permission list',
