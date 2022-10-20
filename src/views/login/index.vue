@@ -33,16 +33,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs, getCurrentInstance, reactive, ref } from 'vue';
+import { toRefs, getCurrentInstance, reactive, ref, inject } from 'vue';
 import { loginStore } from '@/store';
 import { useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
+import { es } from 'element-plus/es/locale';
 // import Cookies from 'js-cookie';
 // import { encrypt } from '@/utils/passencrypt';
 const title = ref('用户登录');
 const store = loginStore();
 const router = useRouter();
 const ruleFormRef = ref();
+
+const $api: any = inject('$api');
 const data = reactive({
   ruleForm: {
     username: '',
@@ -62,15 +65,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       // ruleForm.value.password = encrypt(ruleForm.value.password);
       //调用 store里面actions登录方法
-      store.login().then((res: any) => {
-        // console.log(res);
-        if (res.code === 200) {
-          router.push('/');
-          localStorage.setItem('userInfo', 'a');
-        } else {
-          router.push('/login');
-        }
-      });
+      login();
     }
   });
 };
@@ -78,6 +73,26 @@ function resetForm(formEl: FormInstance | undefined) {
   if (!formEl) return;
   formEl.resetFields();
 }
+const login = async () => {
+  const res = await $api.user.login(data.ruleForm.username, data.ruleForm.password);
+  if (res) {
+    console.log(res);
+    if (res.data.status === '200') {
+      console.log(1);
+
+      store.setUserInfo(res.data);
+      localStorage.setItem('jwt', res.data.jwt);
+      router.push({
+        path: '/home',
+      });
+    } else {
+      router.push({
+        path: '/login',
+      });
+    }
+  }
+};
+
 const { rules, ruleForm } = toRefs(data);
 </script>
 

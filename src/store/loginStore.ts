@@ -1,12 +1,12 @@
 import {defineStore} from 'pinia'
 import { getRouters } from '@/api';
+import { UserResponse} from "@/api/apiTypes"
 
 
 export const loginStore = defineStore('login',{
-    state:()=>{
+    state:(): UserResponse => {
         return{
-            userInfo:{},
-
+            userInfo:{ },
         }
     },
     getters:{
@@ -16,10 +16,6 @@ export const loginStore = defineStore('login',{
     },
     actions:{
         login:()=>{
-            // const username =userInfo.username.trim();
-            // const password = userInfo.password;
-            // const code =userInfo.code;
-            // const uuid = userInfo.uuid;
             return new Promise((resolve,reject)=>{
                 const data = {
                     code:200,
@@ -27,6 +23,9 @@ export const loginStore = defineStore('login',{
                 }
                resolve(data)
             })
+        },
+        setUserInfo(info:any){
+           this.userInfo = info
         }
     }
 })

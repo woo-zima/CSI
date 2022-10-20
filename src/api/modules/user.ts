@@ -1,11 +1,20 @@
-import { resolve } from "path";
-import axios  from "../base";
+import instance  from "../base";
 
 
-export function login(data?:any){
-    return axios({
+export function login(name:string,pass:string){
+    return instance({
         url: '/login',
         method: 'post',
-        data
+        data:{
+            username:name,
+            password:pass
+        }
+    })
+}
+
+export function getAllMenu(uid:number){
+    return instance({
+        url:`/MenuApi/selectAllMenu/${uid}`,
+        method:'get'
     })
 }

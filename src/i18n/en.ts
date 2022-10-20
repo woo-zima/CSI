@@ -2,9 +2,9 @@ export default {
     menus: {
       '/': 'home',
       home: 'Home',
-      Tool:'System Tool',
-      Build: 'Form Construction',
-      Gen: 'Code Generation',
+      Personal:'Personal Info',
+      Maintain: 'Maintain Info',
+      Lookothers: 'Lookothers Info',
       Swagger: 'System Interface',
       Department: 'Department Management',
       Menulist: 'Menu Management',

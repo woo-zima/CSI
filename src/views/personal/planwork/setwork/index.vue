@@ -1,5 +1,5 @@
 <template>
-  <div>gen</div>
+  <div>工作设置</div>
 </template>
 
 <script setup lang="ts"></script>

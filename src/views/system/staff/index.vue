@@ -1,5 +1,5 @@
 <template>
-  <div>handleRecord</div>
+  <div>staff</div>
 </template>
 
 <script setup lang="ts"></script>

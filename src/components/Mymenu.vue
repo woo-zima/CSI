@@ -4,7 +4,7 @@
       <el-sub-menu
         :index="item.path"
         :key="item.name"
-        v-if="item.children && item.children.length > 0 && !(item.meta!).isSingle"
+        v-if="item.children && item.children.length > 0"
         @click="saveSubMenuPath(item.path)"
       >
         <template #title>
@@ -15,7 +15,7 @@
       <el-menu-item
         v-else
         :index="item.path"
-        @click="savePath(item.meta!.link ? item.meta!.link + '/' + item.name : item.name)"
+        @click="savePath(item.meta ? item.meta + '/' + item.name : item.name)"
       >
         <span>{{ $t(`menus.${item.name}`) }}</span>
       </el-menu-item>
