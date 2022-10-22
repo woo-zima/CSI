@@ -74,23 +74,24 @@ function resetForm(formEl: FormInstance | undefined) {
   formEl.resetFields();
 }
 const login = async () => {
-  const res = await $api.user.login(data.ruleForm.username, data.ruleForm.password);
-  if (res) {
-    console.log(res);
-    if (res.data.status === '200') {
-      console.log(1);
+  // const res = await $api.user.login(data.ruleForm.username, data.ruleForm.password);
+  // if (res) {
+  //   console.log(res);
+  //   if (res.data.status === '200') {
+  //     console.log(1);
 
-      store.setUserInfo(res.data);
-      localStorage.setItem('jwt', res.data.jwt);
-      router.push({
-        path: '/home',
-      });
-    } else {
-      router.push({
-        path: '/login',
-      });
-    }
-  }
+  //     store.setUserInfo(res.data);
+  //     localStorage.setItem('jwt', res.data.jwt);
+  //     router.push({
+  //       path: '/home',
+  //     });
+  //   } else {
+  //     router.push({
+  //       path: '/login',
+  //     });
+  //   }
+  // }
+  router.push(`home`);
 };
 
 const { rules, ruleForm } = toRefs(data);

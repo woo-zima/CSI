@@ -3,7 +3,7 @@
     <bread-crumb />
     <div class="nav-right">
       <div @click="switchLang">change</div>
-      <screenful style="margin-right: 20px" />
+      <!-- <screenful style="margin-right: 20px" /> -->
       <avatar />
     </div>
   </div>
@@ -13,7 +13,7 @@
 import Hamburger from './comps/hamburger.vue';
 import BreadCrumb from './comps/breadCrumb.vue';
 import avatar from './comps/avatar.vue';
-import Screenful from './comps/screenful.vue';
+// import Screenful from './comps/screenful.vue';
 import { getCurrentInstance } from 'vue';
 import useLanguage from '@/utils/useLanguage';
 

@@ -38,7 +38,7 @@ const router = useRouter();
 watch(
   () => props.menusList,
   newVal => {
-    console.log(newVal);
+    // console.log(newVal);
   }
 );
 //监听路由的变化

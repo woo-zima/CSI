@@ -6,7 +6,7 @@ import {routerStore} from '@/store'
 const whiteList = ['/login', '/register'];
 
 router.beforeEach(async (to, from, next) => {
-    let token = localStorage.getItem('userInfo');
+    let token = localStorage.getItem('jwt');
     // console.log(to);
     const store = routerStore()
     if (token) {
