@@ -14,11 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import { getRouters, RoutersType, iconType } from '@/api';
-import { ref, watch, Ref, onMounted } from 'vue';
+import { getRouters } from '@/api';
+import { ref, watch, Ref, onMounted, inject } from 'vue';
 import { layoutStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 import Mymenu from '@/components/Mymenu.vue';
+import { loginStore } from '@/store';
 const route = useRoute();
 
 const defaultRouter = ref(sessionStorage.getItem('path') || '/tool/build');
@@ -26,6 +27,8 @@ const menusList: Ref = ref([]);
 const store = layoutStore();
 const router = useRouter();
 const myPath = ref('');
+const $api: any = inject('$api');
+const loginstore = loginStore();
 
 onMounted(() => {
   initMenusList();
@@ -33,22 +36,15 @@ onMounted(() => {
   // menusList.value = getRouters();
 });
 const initMenusList = async () => {
-  menusList.value = await getRouters();
+  const res = await $api.user.getAllMenu(loginstore.getUser.empl_id);
+  menusList.value = res!.data;
   // console.log(menusList.value);
+  // menusList.value = await getRouters();
 };
 //监听路由的变化
 watch(route, () => {
   myPath.value = route?.path;
 });
-// function savePath(x: string, y: string) {
-//   if (x && y) {
-//     sessionStorage.setItem('path', `${x}/${y}`);
-//   } else {
-//     sessionStorage.setItem('path', `${x}`);
-//     router.currentRoute.value.path = '';
-//     router.push(`/${x}`);
-//   }
-// }
 </script>
 
 <style lang="scss">

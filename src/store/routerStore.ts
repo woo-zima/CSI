@@ -29,6 +29,7 @@ export const routerStore = defineStore('router',{
             return new Promise((resolve) => {
                 getRouters().then((res) => {
                     this.userInfo = {name:'a'}
+
                     const sdata = JSON.parse(JSON.stringify(res))
                     const rdata = JSON.parse(JSON.stringify(res))
                     const defaultData = JSON.parse(JSON.stringify(res))

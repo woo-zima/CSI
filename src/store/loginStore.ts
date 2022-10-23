@@ -6,7 +6,7 @@ import { UserResponse} from "@/api/apiTypes"
 export const loginStore = defineStore('login',{
     state:(): UserResponse => {
         return{
-            userInfo:{ },
+            userInfo: JSON.parse(localStorage.getItem("user")!) || {},
         }
     },
     getters:{

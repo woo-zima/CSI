@@ -17,6 +17,9 @@
       </el-col>
     </el-row>
 
+    <el-row>
+      <h4>已授权用户：</h4>
+    </el-row>
     <el-table :data="state.readList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="读者ID" prop="readId" width="120" />
@@ -59,7 +62,7 @@ const state = reactive({
   readList: [
     {
       readId: 1,
-      readName: 'qq',
+      readName: '小羊 ',
       readDept: 'A部门',
     },
   ],

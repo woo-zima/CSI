@@ -10,8 +10,8 @@ const $api: any = inject('$api');
 const store = loginStore();
 
 onMounted(async () => {
-  const res = await $api.user.getAllMenu(store.getUser.empl_id);
-  console.log(res);
+  // const res = await $api.user.getAllMenu(store.getUser.empl_id);
+  // console.log(res);
 });
 </script>
 

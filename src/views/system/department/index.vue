@@ -4,6 +4,7 @@
       :model="state.queryParams"
       ref="queryForm"
       size="small"
+      :rules="state.rules"
       :inline="true"
       v-show="state.showSearch"
     >
@@ -21,8 +22,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="small" @click="handleQuery">搜索</el-button>
-        <el-button size="small" @click="resetQuery">重置</el-button>
+        <el-button type="primary" size="small" @click="handleQuery(queryForm)">搜索</el-button>
+        <el-button size="small" @click="resetQuery(queryForm)">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -46,11 +47,6 @@
     >
       <el-table-column prop="deptName" label="部门名称" width="260"></el-table-column>
       <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
-      <el-table-column prop="status" label="状态" width="100">
-        <template #default="scope">
-          <!-- <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status" /> -->
-        </template>
-      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="200">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
@@ -58,19 +54,9 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
-            修改
-          </el-button>
-          <el-button size="small" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)">
-            新增
-          </el-button>
-          <el-button
-            v-if="scope.row.parentId != 0"
-            size="small"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-          >
+          <el-button size="small" @click="handleUpdate(scope.row)">修改</el-button>
+
+          <el-button v-if="scope.row.parentId != 0" size="small" @click="handleDelete(scope.row)">
             删除
           </el-button>
         </template>
@@ -78,7 +64,7 @@
     </el-table>
 
     <!-- 添加或修改部门对话框 -->
-    <el-dialog :title="state.title" :visible.sync="state.open" width="600px" append-to-body>
+    <el-dialog :title="state.title" :model-value="state.open" width="600px" @close="closeHandle">
       <el-form ref="form" :model="state.form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24" v-if="state.form.parentId !== 0">
@@ -116,22 +102,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="state.form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="部门状态">
-              <el-radio-group v-model="state.form.status">
-                <el-radio key="option1" label="option1">
-                  {{ 'option1' }}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -142,7 +112,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
+import getDeptData from '@/utils/getDeptData';
+
+const queryForm = ref();
 const state = reactive({
   open: false,
   title: 'a',
@@ -157,7 +130,7 @@ const state = reactive({
   isExpandAll: false,
   form: {
     deptName: '1',
-    orderNum: 'asd',
+    orderNum: 1,
     parentId: 0,
     status: 'asd',
     leader: '',
@@ -166,18 +139,66 @@ const state = reactive({
   },
   deptOptions: '',
   normalizer: '',
+  rules: {
+    deptName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+    status: [{ required: false, message: '状态不能为空', trigger: 'blur' }],
+  },
+});
+onMounted(() => {
+  const res = getDeptData();
+  console.log(res);
+  state.deptList = res;
 });
 const rules = {};
-const handleQuery = () => {};
-const resetQuery = () => {};
-const handleAdd = (row: any) => {};
+const handleQuery = (el: any) => {
+  el.validate((valid: any) => {
+    if (valid) {
+      console.log(state.queryParams);
+      // console.log(filterDeptData(state.queryParams));
+      let res = filterDeptData(state.queryParams);
+      state.deptList = res;
+    } else {
+      return;
+    }
+  });
+};
+
+const filterDeptData = (data: any) => {
+  let key = data?.deptName || '',
+    status = data?.status || 0;
+
+  let arr = state.deptList.filter((item: any, index) => {
+    let reg = new RegExp(key);
+    if (reg.test(item.deptName)) {
+      return item;
+    }
+  });
+
+  return arr;
+};
+const resetQuery = (el: any) => {
+  if (!el) return;
+  el.resetFields();
+};
+const handleAdd = () => {
+  state.open = true;
+  state.title = '新增部门';
+  const res = getDeptData();
+  state.deptList = res;
+};
+
+const closeHandle = () => {
+  state.open = false;
+};
 const handleDelete = (row: any) => {};
 const showSearch = () => {};
 const getList = () => {};
 const toggleExpandAll = () => {};
 const handleUpdate = (row: any) => {};
 const submitForm = () => {};
-const cancel = () => {};
+const cancel = () => {
+  state.open = false;
+};
 </script>
 
 <style lang="scss" scoped></style>

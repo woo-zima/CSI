@@ -20,7 +20,9 @@ router.beforeEach(async (to, from, next) => {
         }else{
           try{
             // const roles = store.getUser.name
-           const accessRoutes = await store.GenerateRoutes();
+           const accessRoutes:any = await store.GenerateRoutes();
+           console.log(accessRoutes);
+           
            if(accessRoutes)(
            accessRoutes.forEach((route:any)=>{
             router.addRoute(route)

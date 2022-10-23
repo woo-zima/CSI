@@ -99,8 +99,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, ref } from 'vue';
+import { loginStore } from '@/store';
+import { reactive, toRefs, ref, onMounted } from 'vue';
+const store = loginStore();
 
+onMounted(() => {
+  const user = store.getUser;
+  console.log(user);
+  state.personalMsg.username = user.username;
+});
 const state = reactive({
   personalMsg: {
     staffId: '12',

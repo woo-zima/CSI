@@ -22,7 +22,7 @@ const layout = () => {
   router.push({
     path: '/login',
   });
-  localStorage.removeItem('userInfo');
+  localStorage.removeItem('jwt');
 };
 </script>
 

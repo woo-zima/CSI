@@ -16,9 +16,6 @@
         <el-form-item label="用户密码" prop="password">
           <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="验证码" prop="code">
-          <el-input v-model="ruleForm.code" />
-        </el-form-item>
         <el-form-item prop="remember">
           <el-checkbox v-model="ruleForm.remember">记住密码</el-checkbox>
         </el-form-item>
@@ -37,7 +34,6 @@ import { toRefs, getCurrentInstance, reactive, ref, inject } from 'vue';
 import { loginStore } from '@/store';
 import { useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
-import { es } from 'element-plus/es/locale';
 // import Cookies from 'js-cookie';
 // import { encrypt } from '@/utils/passencrypt';
 const title = ref('用户登录');
@@ -74,24 +70,23 @@ function resetForm(formEl: FormInstance | undefined) {
   formEl.resetFields();
 }
 const login = async () => {
-  // const res = await $api.user.login(data.ruleForm.username, data.ruleForm.password);
-  // if (res) {
-  //   console.log(res);
-  //   if (res.data.status === '200') {
-  //     console.log(1);
-
-  //     store.setUserInfo(res.data);
-  //     localStorage.setItem('jwt', res.data.jwt);
-  //     router.push({
-  //       path: '/home',
-  //     });
-  //   } else {
-  //     router.push({
-  //       path: '/login',
-  //     });
-  //   }
-  // }
-  router.push(`home`);
+  const res = await $api.user.login(data.ruleForm.username, data.ruleForm.password);
+  if (res) {
+    console.log(res);
+    if (res.data.status === '200') {
+      store.setUserInfo(res.data);
+      localStorage.setItem('jwt', res.data.jwt);
+      localStorage.setItem('user', JSON.stringify(res.data));
+      router.push({
+        path: '/home',
+      });
+    } else {
+      router.push({
+        path: '/login',
+      });
+    }
+  }
+  // router.push(`home`);
 };
 
 const { rules, ruleForm } = toRefs(data);

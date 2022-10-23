@@ -119,7 +119,7 @@
       width="500px"
       @close="state.open = false"
     >
-      <el-form ref="g_form" :model="state.form" :rules="state.rules" label-width="100px">
+      <el-form ref="g_form" :modelValue="state.form" :rules="state.rules" label-width="100px">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="state.form.roleName" placeholder="请输入角色名称" />
         </el-form-item>
@@ -170,10 +170,19 @@ const state = reactive({
   roleList: [
     {
       roleId: 1,
-      roleName: 'qq',
-      roleKey: 1231,
-      roleSort: 123,
-      createTime: new Date(),
+      roleName: '小张',
+      roleKey: 1,
+      roleSort: 1,
+      createTime: new Date().toLocaleDateString(),
+      status: '0',
+    },
+    {
+      roleId: 2,
+      roleName: '小李',
+      roleKey: 2,
+      roleSort: 2,
+      createTime: new Date().toLocaleDateString(),
+      status: '0',
     },
   ],
   title: '',
@@ -189,7 +198,7 @@ const state = reactive({
   // 查询参数
   queryParams: {
     pageNum: 1,
-    pageSize: 8,
+    pageSize: 10,
     roleName: undefined,
     roleKey: undefined,
     status: undefined,
@@ -199,7 +208,7 @@ const state = reactive({
     roleName: '1',
     roleKey: 21,
     roleSort: 12,
-    status: 'asd',
+    status: '0',
     menuCheckStrictly: 'adad',
     remark: '2',
   },
@@ -225,27 +234,37 @@ const getList = () => {
 
 // 角色状态修改
 const handleStatusChange = (row: any) => {
-  console.log(row);
-  ElMessageBox.confirm(`确认要${row.status == '1' ? '启用' : '停用'}该角色吗?`, '提示', {
+  let flag = row.status == '0';
+  ElMessageBox.confirm(`确认要${row.status == '0' ? '启用' : '停用'}该角色吗?`, '提示', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning',
   })
     .then(() => {
-      state.roleList.map((item, index) => {
-        if (item.roleId === row.roleId) {
-          state.roleList.splice(index, 1);
+      return new Promise(resolve => {
+        let index: any[] = state.roleList
+          .map((item, index) => {
+            if (item.roleId === row.roleId) {
+              return index;
+            }
+          })
+          .filter((res: any) => {
+            return res !== undefined;
+          });
+        console.log(index);
+        if (flag) {
+          state.roleList[index[0]].status = '1';
+          return;
         }
-      });
-      ElMessage({
-        type: 'success',
-        message: '操作成功！',
+        state.roleList[index[0]].status = '0';
+        ElMessage.success('操作成功!');
+        return resolve(true);
       });
     })
     .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '操作取消！',
+      return new Promise((_, reject) => {
+        ElMessage.error('操作取消');
+        return reject(new Error('Error'));
       });
     });
 };
@@ -301,7 +320,8 @@ const submitForm = (el: any) => {
         roleName: state.form.roleName,
         roleKey: state.form.roleKey,
         roleSort: state.form.roleSort,
-        createTime: new Date(),
+        createTime: new Date().toLocaleDateString(),
+        status: '0',
       });
     }
   });
